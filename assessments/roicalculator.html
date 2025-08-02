@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Risk ROI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+        
+        .inputs-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .results-section {
+            padding: 40px;
+            background: white;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .risk-scenario {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .risk-scenario h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .results-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .results-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .results-card .amount {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .results-card .timeframe {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+        
+        .roi-summary {
+            background: #2ecc71;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .roi-summary h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        
+        .roi-summary .roi-ratio {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .breakdown {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .breakdown h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #8e6a00;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .inputs-section {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .results-card .amount {
+                font-size: 2em;
+            }
+            
+            .roi-summary .roi-ratio {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Knowledge Risk ROI Calculator</h1>
+            <p>Calculate the financial impact of knowledge loss and justify your documentation investment</p>
+        </div>
+        
+        <div class="calculator-container">
+            <div class="inputs-section">
+                <h2 style="margin-bottom: 30px; color: #2c3e50;">Company Information</h2>
+                
+                <div class="input-group">
+                    <label for="annual-revenue">Annual Revenue ($)</label>
+                    <input type="number" id="annual-revenue" placeholder="5000000" value="5000000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="employee-count">Number of Employees</label>
+                    <input type="number" id="employee-count" placeholder="50" value="50">
+                </div>
+                
+                <div class="input-group">
+                    <label for="avg-salary">Average Employee Salary ($)</label>
+                    <input type="number" id="avg-salary" placeholder="75000" value="75000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="key-people">Number of Key Knowledge Holders</label>
+                    <input type="number" id="key-people" placeholder="5" value="5">
+                </div>
+                
+                <div class="input-group">
+                    <label for="largest-customer">Largest Customer Value (% of revenue)</label>
+                    <input type="number" id="largest-customer" placeholder="25" value="25" max="100">
+                </div>
+                
+                <div class="input-group">
+                    <label for="company-stage">Company Stage</label>
+                    <select id="company-stage">
+                        <option value="growth">Growth Stage</option>
+                        <option value="mature">Mature Operations</option>
+                        <option value="exit">Preparing for Exit</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="project-cost">Estimated Documentation Project Cost ($)</label>
+                    <input type="number" id="project-cost" placeholder="100000" value="100000">
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h2 style="margin-bottom: 30px; color: #2c3e50;">Risk Analysis Results</h2>
+                
+                <div class="results-card">
+                    <h3>Total Annual Knowledge Risk</h3>
+                    <div class="amount" id="total-risk">$0</div>
+                    <div class="timeframe">Per Year</div>
+                </div>
+                
+                <div class="results-card" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                    <h3>Daily Risk Exposure</h3>
+                    <div class="amount" id="daily-risk">$0</div>
+                    <div class="timeframe">Every Day You Wait</div>
+                </div>
+                
+                <div class="breakdown">
+                    <h4>Risk Breakdown</h4>
+                    <div class="breakdown-item">
+                        <span>Key Person Departure Risk:</span>
+                        <span id="departure-risk">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Customer Relationship Risk:</span>
+                        <span id="customer-risk">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Operational Disruption Risk:</span>
+                        <span id="operational-risk">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Training/Onboarding Inefficiency:</span>
+                        <span id="training-cost">$0</span>
+                    </div>
+                    <div class="breakdown-item" id="exit-premium" style="display: none;">
+                        <span>Valuation Impact (Exit):</span>
+                        <span id="valuation-impact">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Total Annual Risk:</span>
+                        <span id="total-breakdown">$0</span>
+                    </div>
+                </div>
+                
+                <div class="roi-summary">
+                    <h3>Documentation Project ROI</h3>
+                    <div class="roi-ratio" id="roi-ratio">0:1</div>
+                    <p>Return on Investment</p>
+                    <div style="margin-top: 15px; font-size: 1.1em;">
+                        Payback Period: <span id="payback-period">0</span> months
+                    </div>
+                </div>
+                
+                <div class="warning">
+                    <strong>Important:</strong> These calculations are based on industry averages and conservative estimates. Actual risk exposure may be higher depending on your specific knowledge dependencies and market conditions.
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding: 40px; background: #f8f9fa; text-align: center; border-top: 1px solid #e9ecef;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">Ready to Protect Your Organizational Memory?</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Don't let knowledge risks become business reality. Schedule your Knowledge Risk Assessment today.</p>
+            <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer;">Schedule Assessment</button>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function calculateRisks() {
+            // Get input values
+            const revenue = parseFloat(document.getElementById('annual-revenue').value) || 0;
+            const employees = parseFloat(document.getElementById('employee-count').value) || 0;
+            const avgSalary = parseFloat(document.getElementById('avg-salary').value) || 0;
+            const keyPeople = parseFloat(document.getElementById('key-people').value) || 0;
+            const largestCustomer = parseFloat(document.getElementById('largest-customer').value) || 0;
+            const companyStage = document.getElementById('company-stage').value;
+            const projectCost = parseFloat(document.getElementById('project-cost').value) || 0;
+
+            // Risk calculations
+            
+            // Key Person Departure Risk (Cost to replace + lost productivity)
+            const replacementCost = avgSalary * 1.5; // 150% of salary to replace
+            const lostProductivityCost = revenue * 0.15 / keyPeople; // 15% revenue impact per key person
+            const departureRisk = (replacementCost + lostProductivityCost) * keyPeople * 0.25; // 25% annual turnover probability
+
+            // Customer Relationship Risk
+            const customerValue = revenue * (largestCustomer / 100);
+            const customerRisk = customerValue * 0.3 * 0.2; // 30% of customer value, 20% probability of loss
+
+            // Operational Disruption Risk
+            const disruptionCost = revenue * 0.05; // 5% of revenue
+            const operationalRisk = disruptionCost * 0.4; // 40% probability of significant disruption
+
+            // Training/Onboarding Inefficiency
+            const onboardingCost = avgSalary * 0.25; // 25% of salary for inefficient onboarding
+            const newHires = employees * 0.15; // 15% annual turnover
+            const trainingCost = onboardingCost * newHires;
+
+            // Company stage multipliers
+            let stageMultiplier = 1;
+            let exitPremium = 0;
+            
+            if (companyStage === 'growth') {
+                stageMultiplier = 1.3; // Higher risk during growth
+            } else if (companyStage === 'exit') {
+                stageMultiplier = 1.5; // Highest risk during exit prep
+                exitPremium = revenue * 3 * 0.2; // 20% valuation reduction on 3x revenue multiple
+                document.getElementById('exit-premium').style.display = 'flex';
+            } else {
+                document.getElementById('exit-premium').style.display = 'none';
+            }
+
+            // Calculate totals
+            const baseRisk = (departureRisk + customerRisk + operationalRisk + trainingCost) * stageMultiplier;
+            const totalRisk = baseRisk + exitPremium;
+            const dailyRisk = totalRisk / 365;
+
+            // ROI calculations
+            const roi = totalRisk / projectCost;
+            const paybackMonths = (projectCost / totalRisk) * 12;
+
+            // Update display
+            document.getElementById('total-risk').textContent = formatCurrency(totalRisk);
+            document.getElementById('daily-risk').textContent = formatCurrency(dailyRisk);
+            document.getElementById('departure-risk').textContent = formatCurrency(departureRisk * stageMultiplier);
+            document.getElementById('customer-risk').textContent = formatCurrency(customerRisk * stageMultiplier);
+            document.getElementById('operational-risk').textContent = formatCurrency(operationalRisk * stageMultiplier);
+            document.getElementById('training-cost').textContent = formatCurrency(trainingCost * stageMultiplier);
+            document.getElementById('valuation-impact').textContent = formatCurrency(exitPremium);
+            document.getElementById('total-breakdown').textContent = formatCurrency(totalRisk);
+            document.getElementById('roi-ratio').textContent = Math.round(roi) + ':1';
+            document.getElementById('payback-period').textContent = Math.max(1, Math.round(paybackMonths));
+        }
+
+        // Add event listeners
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', calculateRisks);
+        });
+
+        // Initial calculation
+        calculateRisks();
+    </script>
+</body>
+</html>
