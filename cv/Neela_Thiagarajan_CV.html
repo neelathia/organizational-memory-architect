@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neela Thiagarajan - Organizational Memory Architect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Aptos Narrow', Arial, sans-serif;
+            line-height: 1.4;
+            color: #003768;
+            background: white;
+            font-size: 11pt;
+        }
+        
+        .container {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #003768;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .name {
+            font-size: 26pt;
+            font-weight: 700;
+            color: #003768;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .title {
+            font-size: 14pt;
+            font-weight: 500;
+            color: #003768;
+            margin-bottom: 12px;
+        }
+        
+        .contact-info {
+            font-size: 10pt;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .contact-info a {
+            color: #003768;
+            text-decoration: none;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #003768;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #003768;
+            padding-bottom: 3px;
+            margin-bottom: 15px;
+        }
+        
+        .summary {
+            text-align: justify;
+            margin-bottom: 20px;
+            font-size: 11pt;
+            line-height: 1.5;
+        }
+        
+        .highlight-box {
+            background: rgba(0, 55, 104, 0.05);
+            padding: 15px;
+            border-left: 4px solid #003768;
+            margin: 15px 0;
+            font-size: 10pt;
+        }
+        
+        .job-header {
+            margin-bottom: 12px;
+        }
+        
+        .job-title {
+            font-size: 12pt;
+            font-weight: 600;
+            color: #003768;
+            margin-bottom: 2px;
+        }
+        
+        .company {
+            font-size: 11pt;
+            font-weight: 500;
+            color: #003768;
+            margin-bottom: 2px;
+        }
+        
+        .job-duration {
+            font-size: 10pt;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .job-description {
+            font-size: 10.5pt;
+            margin-bottom: 8px;
+            font-style: italic;
+            color: #003768;
+        }
+        
+        .subsection {
+            margin-bottom: 12px;
+        }
+        
+        .subsection-title {
+            font-size: 10.5pt;
+            font-weight: 600;
+            color: #003768;
+            margin-bottom: 6px;
+        }
+        
+        .achievement-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .achievement-list li {
+            margin-bottom: 4px;
+            padding-left: 12px;
+            position: relative;
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+        
+        .achievement-list li::before {
+            content: "•";
+            color: #003768;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .metrics {
+            font-weight: 600;
+            color: #003768;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .skill-category {
+            background: rgba(0, 55, 104, 0.03);
+            padding: 10px;
+            border-radius: 3px;
+        }
+        
+        .skill-category h4 {
+            font-size: 10pt;
+            font-weight: 600;
+            color: #003768;
+            margin-bottom: 6px;
+        }
+        
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .skill-category li {
+            font-size: 9pt;
+            margin-bottom: 3px;
+            color: #333;
+        }
+        
+        .education-item {
+            margin-bottom: 8px;
+        }
+        
+        .degree {
+            font-weight: 600;
+            color: #003768;
+            font-size: 10pt;
+        }
+        
+        .school {
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .service-offering {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 10pt;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            color: #003768;
+        }
+        
+        .testimonial {
+            background: rgba(0, 55, 104, 0.05);
+            padding: 12px;
+            border-left: 3px solid #003768;
+            font-style: italic;
+            font-size: 10pt;
+            margin: 15px 0;
+        }
+        
+        .testimonial-author {
+            font-weight: 500;
+            color: #003768;
+            margin-top: 5px;
+        }
+        
+        @media print {
+            body { font-size: 10pt; }
+            .container { padding: 0.3in; }
+            .section { margin-bottom: 18px; }
+            .page-break { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="name">NEELA THIAGARAJAN</div>
+            <div class="title">Organizational Memory Architect</div>
+            <div class="title" style="font-size: 12pt; font-weight: 400;">I prevent your business from forgetting how to run itself</div>
+            <div class="contact-info">
+                📞 913-951-6416 | 📧 <a href="mailto:neelathia@gmail.com">neelathia@gmail.com</a><br>
+                🔗 <a href="https://www.linkedin.com/in/neelathiagarajan">LinkedIn Profile</a> | 
+                📄 <a href="https://www.notion.so/Home-1fb0add27431807e833ed854109b42bd">Portfolio</a><br>
+                📍 Charlotte, North Carolina, United States
+            </div>
+        </div>
+
+        <!-- Professional Summary -->
+        <div class="section">
+            <div class="section-title">Professional Summary</div>
+            <div class="summary">
+                <strong>24 years of enterprise experience</strong> turning organizational knowledge from liability into strategic asset. I help companies capture, systematize, and preserve critical institutional knowledge before it walks out the door, preventing operational disasters and protecting business value.
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Specialized in organizational memory architecture for:</strong><br>
+                • Banking, insurance, and fintech organizations with regulatory complexity and high institutional risk<br>
+                • Fast-growing SaaS companies with scaling challenges<br>
+                • Manufacturing firms with complex operational processes<br>
+                • Professional services where expertise equals revenue
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Proven Track Record:</div>
+                <ul class="achievement-list">
+                    <li><span class="metrics">Saved $1.2M+ annually</span> through knowledge risk mitigation and defect reduction</li>
+                    <li><span class="metrics">Enabled seamless leadership transitions</span> during 50%+ staff turnover with zero operational disruption</li>
+                    <li><span class="metrics">Reduced new employee onboarding time by 40%</span> through systematic knowledge transfer systems</li>
+                    <li><span class="metrics">Built audit-ready documentation frameworks</span> designed to protect business value during due diligence</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Core Competencies -->
+        <div class="section">
+            <div class="section-title">Core Competencies</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">🛡️ Operational Risk Reduction</div>
+                <p style="font-size: 10pt; margin-bottom: 8px;">Capture and preserve critical knowledge through documentation to accelerate transitions, sustain productivity, and reduce key-person dependency risk.</p>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">📈 Scalability & Fast Ramp-Up</div>
+                <p style="font-size: 10pt; margin-bottom: 8px;">Document repeatable workflows and role knowledge to shorten onboarding, reduce training time, and support team scaling without disruption.</p>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">✅ Compliance & Business Readiness</div>
+                <p style="font-size: 10pt; margin-bottom: 8px;">Structure documentation to support audits, reduce compliance risk, and ensure operational visibility during M&A or regulatory reviews.</p>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">⚡ Productivity & Adoption Support</div>
+                <p style="font-size: 10pt; margin-bottom: 8px;">Create clear, accessible content that empowers users, improves adoption of systems, and reduces the support burden on SMEs and leads.</p>
+            </div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="section">
+            <div class="section-title">Professional Experience</div>
+            
+            <!-- Current Role -->
+            <div class="job-header">
+                <div class="job-title">Organizational Memory Architect & Senior Consultant</div>
+                <div class="company">TRT Solutions (Independent Practice)</div>
+                <div class="job-duration">March 2024 – Present | United States</div>
+                <div class="job-description">Helping organizations prevent knowledge disasters through systematic institutional memory preservation</div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Knowledge Risk Mitigation & Business Continuity:</div>
+                <ul class="achievement-list">
+                    <li>Conduct comprehensive Knowledge Risk Assessments identifying critical knowledge dependencies</li>
+                    <li>Design and implement organizational memory architectures using proprietary MEMO™ framework</li>
+                    <li>Create business continuity documentation that survives executive transitions and staff turnover</li>
+                    <li>Specialize in capturing tribal knowledge from key personnel before departure</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Service Portfolio:</div>
+                <div class="service-offering">
+                    <span class="service-name">Knowledge Risk Assessments:</span>
+                    <span>2-week diagnostic identifying knowledge vulnerabilities</span>
+                </div>
+                <div class="service-offering">
+                    <span class="service-name">Operational Memory Blueprint:</span>
+                    <span>Complete knowledge management architecture</span>
+                </div>
+                <div class="service-offering">
+                    <span class="service-name">Exit Documentation Sprint:</span>
+                    <span>M&A readiness through operational transparency</span>
+                </div>
+            </div>
+
+            <!-- Wells Fargo -->
+            <div class="job-header" style="margin-top: 20px;">
+                <div class="job-title">Senior UX Content Designer - Design Systems Lead</div>
+                <div class="company">Wells Fargo</div>
+                <div class="job-duration">April 2016 – March 2024 | Charlotte, North Carolina</div>
+                <div class="job-description">Led organizational knowledge preservation and documentation governance for digital banking operations</div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Knowledge Management & Business Continuity:</div>
+                <ul class="achievement-list">
+                    <li><span class="metrics">Saved $1.2M annually</span> through systematic knowledge capture and defect reduction via optimized documentation QA</li>
+                    <li><span class="metrics">Reduced knowledge ambiguity by 90%</span> through structured documentation systems, enabling clearer audits and faster approvals</li>
+                    <li><span class="metrics">Accelerated product delivery by 30%</span> while maintaining full regulatory compliance during team transitions</li>
+                    <li><span class="metrics">Improved cross-functional team productivity by 40%</span> via documented baselines and knowledge transfer protocols</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Institutional Memory Preservation:</div>
+                <ul class="achievement-list">
+                    <li>Created audit-ready knowledge repositories preserving 8+ years of design system evolution and decision-making frameworks</li>
+                    <li>Led documentation strategy for Figma migration affecting 200+ designers and developers with zero knowledge loss</li>
+                    <li>Established knowledge transfer procedures enabling seamless team transitions during major reorganizations</li>
+                    <li>Built training systems and mentoring frameworks that reduced dependency on individual expertise by 60%</li>
+                </ul>
+            </div>
+
+            <!-- Cognizant -->
+            <div class="job-header" style="margin-top: 20px;">
+                <div class="job-title">Senior Manager - Global Documentation Operations</div>
+                <div class="company">Cognizant Technology Solutions</div>
+                <div class="job-duration">June 2006 – March 2016 | India & Charlotte, NC</div>
+                <div class="job-description">Directed global documentation operations for Fortune 500 BFSI and healthcare clients, building institutional memory systems that survived major personnel transitions</div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Business Impact & Knowledge Risk Mitigation:</div>
+                <ul class="achievement-list">
+                    <li><span class="metrics">Managed $800K+ annual revenue</span> with 40%+ profitability through systematic knowledge preservation</li>
+                    <li><span class="metrics">Secured multi-million-dollar accounts</span>, including top-tier French bank, by demonstrating institutional knowledge retention</li>
+                    <li><span class="metrics">Delivered 5+ year documentation programs</span> for global banking clients without knowledge loss during staff transitions</li>
+                    <li><span class="metrics">Prevented operational disruptions</span> during 60% annual team turnover through documented processes</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Team Leadership & Knowledge Transfer:</div>
+                <ul class="achievement-list">
+                    <li>Led 25+ documentation professionals across India and North America, creating knowledge continuity during geographic transitions</li>
+                    <li>Developed role-based competency tracks and mentored team leads, ensuring institutional knowledge preservation across team generations</li>
+                    <li>Spearheaded campus hiring and knowledge transfer programs onboarding 20+ professionals annually</li>
+                </ul>
+            </div>
+
+            <!-- Early Career -->
+            <div class="job-header" style="margin-top: 20px;">
+                <div class="job-title">Process/End-User Documentation Specialist</div>
+                <div class="company">Various Companies</div>
+                <div class="job-duration">June 2000 – June 2006</div>
+                <div class="job-description">Built foundational experience in institutional memory preservation for regulated industries</div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Knowledge Capture & Business Continuity:</div>
+                <ul class="achievement-list">
+                    <li>Authored comprehensive user guides and SOPs preserving critical operational knowledge</li>
+                    <li>Improved knowledge transfer effectiveness by 30% through visual process mapping and diagrammatic systems</li>
+                    <li>Created knowledge repositories that survived multiple organizational changes and personnel transitions</li>
+                    <li>Established knowledge transfer procedures for regulated environments with zero tolerance for knowledge gaps</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Specialized Knowledge & Methodologies -->
+        <div class="section">
+            <div class="section-title">Specialized Knowledge & Methodologies</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Proprietary Frameworks:</div>
+                <ul class="achievement-list">
+                    <li><strong>MEMO™ Methodology:</strong> Map, Extract, Model, Operationalize - systematic approach to organizational memory architecture</li>
+                    <li><strong>Knowledge Risk Assessment Framework:</strong> Quantified evaluation of institutional knowledge vulnerabilities</li>
+                    <li><strong>Business Continuity Documentation Model:</strong> Exit-ready documentation for M&A transactions</li>
+                </ul>
+            </div>
+            
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Knowledge Management Systems</h4>
+                    <ul>
+                        <li>Confluence, SharePoint, Notion</li>
+                        <li>Specialized documentation platforms</li>
+                        <li>Knowledge repository design</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Process Mapping & Analysis</h4>
+                    <ul>
+                        <li>Lucidchart, Visio</li>
+                        <li>Advanced workflow documentation</li>
+                        <li>Process optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Business Intelligence</h4>
+                    <ul>
+                        <li>Excel (Advanced), Airtable</li>
+                        <li>Data analysis for knowledge risk quantification</li>
+                        <li>Performance metrics and ROI analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Industry Expertise</h4>
+                    <ul>
+                        <li>SaaS/Technology operations</li>
+                        <li>Healthcare regulatory compliance</li>
+                        <li>Financial services risk management</li>
+                        <li>Manufacturing process excellence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+            <div class="section-title">Education & Professional Development</div>
+            
+            <div class="education-item">
+                <div class="degree">Master of Science in Biochemistry</div>
+                <div class="school">University of Madras | 1998-2000</div>
+            </div>
+            
+            <div class="education-item">
+                <div class="degree">Bachelor of Science - Food Science, Nutrition and Biochemistry</div>
+                <div class="school">Avinashilingam Deemed University | 1995-1998</div>
+            </div>
+            
+            <div class="subsection" style="margin-top: 15px;">
+                <div class="subsection-title">Continuing Education:</div>
+                <ul class="achievement-list">
+                    <li>Advanced M&A Documentation and Due Diligence Preparation</li>
+                    <li>Knowledge Management Systems and Organizational Learning</li>
+                    <li>Business Continuity Planning and Risk Management</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Client Testimonials -->
+        <div class="section">
+            <div class="section-title">Client Testimonials</div>
+            
+            <div class="testimonial">
+                "We would've been completely stuck without the system Neela built. When our VP of Operations left unexpectedly, we didn't miss a beat."
+                <div class="testimonial-author">— Operations Director, Fortune 500 Manufacturing Client</div>
+            </div>
+            
+            <div class="testimonial">
+                "The knowledge risk assessment opened our eyes to vulnerabilities we never knew existed. The documentation project paid for itself within three months."
+                <div class="testimonial-author">— CEO, High-Growth SaaS Company</div>
+            </div>
+        </div>
+
+        <!-- Key Differentiators -->
+        <div class="section">
+            <div class="section-title">Key Differentiators</div>
+            
+            <div class="highlight-box">
+                <strong>✓ Business Impact Focus:</strong> Every project measured by risk reduction, operational continuity, and business value protection<br><br>
+                <strong>✓ Systematic Methodology:</strong> Proprietary MEMO™ framework ensures consistent, replicable results across industries<br><br>
+                <strong>✓ Executive Credibility:</strong> 24 years of Fortune 500 experience with C-suite stakeholder management<br><br>
+                <strong>✓ M&A Expertise:</strong> Specialized knowledge in exit documentation and valuation protection through operational transparency<br><br>
+                <strong>✓ Quantified Results:</strong> Track record of measurable ROI through knowledge risk mitigation and operational efficiency
+            </div>
+        </div>
+    </div>
+</body>
+</html>
