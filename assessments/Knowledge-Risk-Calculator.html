@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Risk Assessment</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background: #003768; color: white; border-radius: 8px; }
+        .score-box { background: #003768; color: white; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0; position: sticky; top: 10px; }
+        .section { margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #003768; }
+        .question { margin: 15px 0; padding: 15px; background: white; border-radius: 5px; }
+        .question-title { font-weight: bold; margin-bottom: 10px; color: #003768; }
+        label { display: block; padding: 5px 0; cursor: pointer; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 8px; }
+        .results { display: none; background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .results.show { display: block; }
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-moderate { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+        .risk-critical { background: #f5c6cb; color: #721c24; font-weight: bold; }
+        .recommendation { margin: 10px 0; padding: 10px; background: white; border-left: 3px solid #003768; }
+        button { background: #003768; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 5px; }
+        button:hover { background: #004080; }
+        .section-score { display: inline-block; margin: 5px 10px; padding: 5px 10px; background: white; border-radius: 3px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Knowledge Risk Assessment</h1>
+            <p>Identify Critical Knowledge Vulnerabilities in Your Organization</p>
+        </div>
+
+        <div class="score-box" id="scoreDisplay">
+            <h3>Current Score: <span id="totalScore">0/190</span></h3>
+            <div id="riskLevel">Complete assessment for risk analysis</div>
+            <div id="sectionBreakdown"></div>
+        </div>
+
+        <form id="assessmentForm">
+            <!-- Section 1: Leadership Risk -->
+            <div class="section">
+                <h2>Section 1: Leadership & Key Personnel Risk (35 points)</h2>
+                
+                <div class="question">
+                    <div class="question-title">If your CEO/Founder left tomorrow unexpectedly:</div>
+                    <label><input type="radio" name="ceo_risk" value="1"> 1 - Business runs normally</label>
+                    <label><input type="radio" name="ceo_risk" value="2"> 2 - Some decisions delayed</label>
+                    <label><input type="radio" name="ceo_risk" value="3"> 3 - Significant disruption (2-4 weeks)</label>
+                    <label><input type="radio" name="ceo_risk" value="4"> 4 - Major problems (1-3 months)</label>
+                    <label><input type="radio" name="ceo_risk" value="5"> 5 - Business cannot function</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">If your Head of Sales left tomorrow:</div>
+                    <label><input type="radio" name="sales_risk" value="1"> 1 - Sales continue seamlessly</label>
+                    <label><input type="radio" name="sales_risk" value="2"> 2 - Minor delays in deals</label>
+                    <label><input type="radio" name="sales_risk" value="3"> 3 - Pipeline slows significantly</label>
+                    <label><input type="radio" name="sales_risk" value="4"> 4 - Customer relationships at risk</label>
+                    <label><input type="radio" name="sales_risk" value="5"> 5 - Sales operations halt</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">If your CTO/Technical Lead left tomorrow:</div>
+                    <label><input type="radio" name="cto_risk" value="1"> 1 - No technical impact</label>
+                    <label><input type="radio" name="cto_risk" value="2"> 2 - Some decisions delayed</label>
+                    <label><input type="radio" name="cto_risk" value="3"> 3 - Development slows</label>
+                    <label><input type="radio" name="cto_risk" value="4"> 4 - Critical systems at risk</label>
+                    <label><input type="radio" name="cto_risk" value="5"> 5 - Technical operations fail</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">If your Head of Operations left tomorrow:</div>
+                    <label><input type="radio" name="ops_risk" value="1"> 1 - Operations continue normally</label>
+                    <label><input type="radio" name="ops_risk" value="2"> 2 - Some process questions</label>
+                    <label><input type="radio" name="ops_risk" value="3"> 3 - Efficiency decreases</label>
+                    <label><input type="radio" name="ops_risk" value="4"> 4 - Service delivery problems</label>
+                    <label><input type="radio" name="ops_risk" value="5"> 5 - Operations chaotic</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Knowledge Concentration Issues (check all that apply - 5 points each):</div>
+                    <label><input type="checkbox" name="concentration" value="5"> 3+ critical processes depend on one person</label>
+                    <label><input type="checkbox" name="concentration" value="5"> Key customers managed by one person</label>
+                    <label><input type="checkbox" name="concentration" value="5"> Financial processes need specific individuals</label>
+                    <label><input type="checkbox" name="concentration" value="5"> Technical knowledge in 1-2 people</label>
+                    <label><input type="checkbox" name="concentration" value="5"> Vendor relationships individual-dependent</label>
+                </div>
+            </div>
+
+            <!-- Section 2: Process Documentation -->
+            <div class="section">
+                <h2>Section 2: Process Documentation (45 points)</h2>
+                
+                <div class="question">
+                    <div class="question-title">Sales Process Documentation:</div>
+                    <label><input type="radio" name="sales_docs" value="1"> 1 - Complete with workflows & templates</label>
+                    <label><input type="radio" name="sales_docs" value="2"> 2 - Good with some gaps</label>
+                    <label><input type="radio" name="sales_docs" value="3"> 3 - Basic documentation</label>
+                    <label><input type="radio" name="sales_docs" value="4"> 4 - Minimal, mostly tribal knowledge</label>
+                    <label><input type="radio" name="sales_docs" value="5"> 5 - No formal documentation</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Customer Onboarding Process:</div>
+                    <label><input type="radio" name="onboarding_docs" value="1"> 1 - Fully documented with checklists</label>
+                    <label><input type="radio" name="onboarding_docs" value="2"> 2 - Well documented, minor gaps</label>
+                    <label><input type="radio" name="onboarding_docs" value="3"> 3 - Basic documentation</label>
+                    <label><input type="radio" name="onboarding_docs" value="4"> 4 - Minimal, relies on experience</label>
+                    <label><input type="radio" name="onboarding_docs" value="5"> 5 - No documentation, ad-hoc</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Financial/Billing Processes:</div>
+                    <label><input type="radio" name="financial_docs" value="1"> 1 - Complete with controls</label>
+                    <label><input type="radio" name="financial_docs" value="2"> 2 - Good with some gaps</label>
+                    <label><input type="radio" name="financial_docs" value="3"> 3 - Basic procedures</label>
+                    <label><input type="radio" name="financial_docs" value="4"> 4 - Limited, individual knowledge</label>
+                    <label><input type="radio" name="financial_docs" value="5"> 5 - No formal procedures</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Product/Service Delivery:</div>
+                    <label><input type="radio" name="delivery_docs" value="1"> 1 - Comprehensive with quality standards</label>
+                    <label><input type="radio" name="delivery_docs" value="2"> 2 - Well documented, some gaps</label>
+                    <label><input type="radio" name="delivery_docs" value="3"> 3 - Basic documentation</label>
+                    <label><input type="radio" name="delivery_docs" value="4"> 4 - Minimal, tribal knowledge</label>
+                    <label><input type="radio" name="delivery_docs" value="5"> 5 - No formal documentation</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Documentation Quality (1=Strongly Disagree, 5=Strongly Agree):</div>
+                    <div style="margin: 10px 0;">
+                        <strong>Documentation is kept current:</strong><br>
+                        <label><input type="radio" name="doc_current" value="5"> 1 - Strongly Disagree</label>
+                        <label><input type="radio" name="doc_current" value="4"> 2 - Disagree</label>
+                        <label><input type="radio" name="doc_current" value="3"> 3 - Neutral</label>
+                        <label><input type="radio" name="doc_current" value="2"> 4 - Agree</label>
+                        <label><input type="radio" name="doc_current" value="1"> 5 - Strongly Agree</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>New employees can follow processes independently:</strong><br>
+                        <label><input type="radio" name="doc_independent" value="5"> 1 - Strongly Disagree</label>
+                        <label><input type="radio" name="doc_independent" value="4"> 2 - Disagree</label>
+                        <label><input type="radio" name="doc_independent" value="3"> 3 - Neutral</label>
+                        <label><input type="radio" name="doc_independent" value="2"> 4 - Agree</label>
+                        <label><input type="radio" name="doc_independent" value="1"> 5 - Strongly Agree</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Documentation includes decision criteria:</strong><br>
+                        <label><input type="radio" name="doc_criteria" value="5"> 1 - Strongly Disagree</label>
+                        <label><input type="radio" name="doc_criteria" value="4"> 2 - Disagree</label>
+                        <label><input type="radio" name="doc_criteria" value="3"> 3 - Neutral</label>
+                        <label><input type="radio" name="doc_criteria" value="2"> 4 - Agree</label>
+                        <label><input type="radio" name="doc_criteria" value="1"> 5 - Strongly Agree</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Lessons learned are documented:</strong><br>
+                        <label><input type="radio" name="doc_lessons" value="5"> 1 - Strongly Disagree</label>
+                        <label><input type="radio" name="doc_lessons" value="4"> 2 - Disagree</label>
+                        <label><input type="radio" name="doc_lessons" value="3"> 3 - Neutral</label>
+                        <label><input type="radio" name="doc_lessons" value="2"> 4 - Agree</label>
+                        <label><input type="radio" name="doc_lessons" value="1"> 5 - Strongly Agree</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Quality controls are included:</strong><br>
+                        <label><input type="radio" name="doc_controls" value="5"> 1 - Strongly Disagree</label>
+                        <label><input type="radio" name="doc_controls" value="4"> 2 - Disagree</label>
+                        <label><input type="radio" name="doc_controls" value="3"> 3 - Neutral</label>
+                        <label><input type="radio" name="doc_controls" value="2"> 4 - Agree</label>
+                        <label><input type="radio" name="doc_controls" value="1"> 5 - Strongly Agree</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Systems & Technology -->
+            <div class="section">
+                <h2>Section 3: Systems & Technology Risk (40 points)</h2>
+                
+                <div class="question">
+                    <div class="question-title">System Administration:</div>
+                    <label><input type="radio" name="sys_admin" value="1"> 1 - Multiple people can manage all systems</label>
+                    <label><input type="radio" name="sys_admin" value="2"> 2 - Most systems have backup admins</label>
+                    <label><input type="radio" name="sys_admin" value="3"> 3 - Some single points of failure</label>
+                    <label><input type="radio" name="sys_admin" value="4"> 4 - Many systems depend on one person</label>
+                    <label><input type="radio" name="sys_admin" value="5"> 5 - Critical systems have one admin only</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Data and Reporting:</div>
+                    <label><input type="radio" name="data_reporting" value="1"> 1 - Multiple people can generate all reports</label>
+                    <label><input type="radio" name="data_reporting" value="2"> 2 - Most reporting has backup capability</label>
+                    <label><input type="radio" name="data_reporting" value="3"> 3 - Some reports depend on individuals</label>
+                    <label><input type="radio" name="data_reporting" value="4"> 4 - Many reports need specific knowledge</label>
+                    <label><input type="radio" name="data_reporting" value="5"> 5 - Key reports by one person only</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Integration and Workflow:</div>
+                    <label><input type="radio" name="integration" value="1"> 1 - Fully documented integrations</label>
+                    <label><input type="radio" name="integration" value="2"> 2 - Most integrations documented</label>
+                    <label><input type="radio" name="integration" value="3"> 3 - Some lack documentation</label>
+                    <label><input type="radio" name="integration" value="4"> 4 - Many poorly documented</label>
+                    <label><input type="radio" name="integration" value="5"> 5 - Exist only in someone's head</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Technical Documentation Quality (1=Excellent, 5=Non-existent):</div>
+                    <div style="margin: 10px 0;">
+                        <strong>System architecture:</strong><br>
+                        <label><input type="radio" name="arch_docs" value="1"> 1 - Excellent</label>
+                        <label><input type="radio" name="arch_docs" value="2"> 2 - Good</label>
+                        <label><input type="radio" name="arch_docs" value="3"> 3 - Basic</label>
+                        <label><input type="radio" name="arch_docs" value="4"> 4 - Poor</label>
+                        <label><input type="radio" name="arch_docs" value="5"> 5 - None</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>User access procedures:</strong><br>
+                        <label><input type="radio" name="access_docs" value="1"> 1 - Excellent</label>
+                        <label><input type="radio" name="access_docs" value="2"> 2 - Good</label>
+                        <label><input type="radio" name="access_docs" value="3"> 3 - Basic</label>
+                        <label><input type="radio" name="access_docs" value="4"> 4 - Poor</label>
+                        <label><input type="radio" name="access_docs" value="5"> 5 - None</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Backup/disaster recovery:</strong><br>
+                        <label><input type="radio" name="backup_docs" value="1"> 1 - Excellent</label>
+                        <label><input type="radio" name="backup_docs" value="2"> 2 - Good</label>
+                        <label><input type="radio" name="backup_docs" value="3"> 3 - Basic</label>
+                        <label><input type="radio" name="backup_docs" value="4"> 4 - Poor</label>
+                        <label><input type="radio" name="backup_docs" value="5"> 5 - None</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Configuration details:</strong><br>
+                        <label><input type="radio" name="config_docs" value="1"> 1 - Excellent</label>
+                        <label><input type="radio" name="config_docs" value="2"> 2 - Good</label>
+                        <label><input type="radio" name="config_docs" value="3"> 3 - Basic</label>
+                        <label><input type="radio" name="config_docs" value="4"> 4 - Poor</label>
+                        <label><input type="radio" name="config_docs" value="5"> 5 - None</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>API documentation:</strong><br>
+                        <label><input type="radio" name="api_docs" value="1"> 1 - Excellent</label>
+                        <label><input type="radio" name="api_docs" value="2"> 2 - Good</label>
+                        <label><input type="radio" name="api_docs" value="3"> 3 - Basic</label>
+                        <label><input type="radio" name="api_docs" value="4"> 4 - Poor</label>
+                        <label><input type="radio" name="api_docs" value="5"> 5 - None</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Customer & Market Knowledge -->
+            <div class="section">
+                <h2>Section 4: Customer & Market Knowledge (35 points)</h2>
+                
+                <div class="question">
+                    <div class="question-title">Customer Relationship Documentation:</div>
+                    <label><input type="radio" name="customer_docs" value="1"> 1 - Complete histories & relationship maps</label>
+                    <label><input type="radio" name="customer_docs" value="2"> 2 - Good documentation, minor gaps</label>
+                    <label><input type="radio" name="customer_docs" value="3"> 3 - Basic customer information</label>
+                    <label><input type="radio" name="customer_docs" value="4"> 4 - Limited documentation</label>
+                    <label><input type="radio" name="customer_docs" value="5"> 5 - Only in individual memories</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Market Intelligence Capture:</div>
+                    <label><input type="radio" name="market_intel" value="1"> 1 - Systematic capture & sharing</label>
+                    <label><input type="radio" name="market_intel" value="2"> 2 - Regular documentation</label>
+                    <label><input type="radio" name="market_intel" value="3"> 3 - Some intelligence captured</label>
+                    <label><input type="radio" name="market_intel" value="4"> 4 - Ad-hoc capture</label>
+                    <label><input type="radio" name="market_intel" value="5"> 5 - Stays in individual heads</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Strategic Knowledge Documentation (1=Fully, 5=Undocumented):</div>
+                    <div style="margin: 10px 0;">
+                        <strong>Competitive analysis:</strong><br>
+                        <label><input type="radio" name="competitive_docs" value="1"> 1 - Fully</label>
+                        <label><input type="radio" name="competitive_docs" value="2"> 2 - Well</label>
+                        <label><input type="radio" name="competitive_docs" value="3"> 3 - Partially</label>
+                        <label><input type="radio" name="competitive_docs" value="4"> 4 - Poorly</label>
+                        <label><input type="radio" name="competitive_docs" value="5"> 5 - Undocumented</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Pricing methodology:</strong><br>
+                        <label><input type="radio" name="pricing_docs" value="1"> 1 - Fully</label>
+                        <label><input type="radio" name="pricing_docs" value="2"> 2 - Well</label>
+                        <label><input type="radio" name="pricing_docs" value="3"> 3 - Partially</label>
+                        <label><input type="radio" name="pricing_docs" value="4"> 4 - Poorly</label>
+                        <label><input type="radio" name="pricing_docs" value="5"> 5 - Undocumented</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Product development rationale:</strong><br>
+                        <label><input type="radio" name="product_docs" value="1"> 1 - Fully</label>
+                        <label><input type="radio" name="product_docs" value="2"> 2 - Well</label>
+                        <label><input type="radio" name="product_docs" value="3"> 3 - Partially</label>
+                        <label><input type="radio" name="product_docs" value="4"> 4 - Poorly</label>
+                        <label><input type="radio" name="product_docs" value="5"> 5 - Undocumented</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Partnership relationships:</strong><br>
+                        <label><input type="radio" name="partnership_docs" value="1"> 1 - Fully</label>
+                        <label><input type="radio" name="partnership_docs" value="2"> 2 - Well</label>
+                        <label><input type="radio" name="partnership_docs" value="3"> 3 - Partially</label>
+                        <label><input type="radio" name="partnership_docs" value="4"> 4 - Poorly</label>
+                        <label><input type="radio" name="partnership_docs" value="5"> 5 - Undocumented</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Historical decisions:</strong><br>
+                        <label><input type="radio" name="decision_docs" value="1"> 1 - Fully</label>
+                        <label><input type="radio" name="decision_docs" value="2"> 2 - Well</label>
+                        <label><input type="radio" name="decision_docs" value="3"> 3 - Partially</label>
+                        <label><input type="radio" name="decision_docs" value="4"> 4 - Poorly</label>
+                        <label><input type="radio" name="decision_docs" value="5"> 5 - Undocumented</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Risk Management -->
+            <div class="section">
+                <h2>Section 5: Risk Management & Continuity (35 points)</h2>
+                
+                <div class="question">
+                    <div class="question-title">Knowledge Transfer Planning:</div>
+                    <label><input type="radio" name="transfer_planning" value="1"> 1 - Formal procedures for all key roles</label>
+                    <label><input type="radio" name="transfer_planning" value="2"> 2 - Plans for most critical roles</label>
+                    <label><input type="radio" name="transfer_planning" value="3"> 3 - Some planning exists</label>
+                    <label><input type="radio" name="transfer_planning" value="4"> 4 - Minimal planning</label>
+                    <label><input type="radio" name="transfer_planning" value="5"> 5 - No formal procedures</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Succession Planning:</div>
+                    <label><input type="radio" name="succession_planning" value="1"> 1 - Clear plans with documented responsibilities</label>
+                    <label><input type="radio" name="succession_planning" value="2"> 2 - Plans for most key positions</label>
+                    <label><input type="radio" name="succession_planning" value="3"> 3 - Basic planning exists</label>
+                    <label><input type="radio" name="succession_planning" value="4"> 4 - Limited planning</label>
+                    <label><input type="radio" name="succession_planning" value="5"> 5 - No planning documentation</label>
+                </div>
+
+                <div class="question">
+                    <div class="question-title">Emergency Preparedness (1=Fully Prepared, 5=Unprepared):</div>
+                    <div style="margin: 10px 0;">
+                        <strong>Key employee departure procedures:</strong><br>
+                        <label><input type="radio" name="departure_procedures" value="1"> 1 - Fully Prepared</label>
+                        <label><input type="radio" name="departure_procedures" value="2"> 2 - Well Prepared</label>
+                        <label><input type="radio" name="departure_procedures" value="3"> 3 - Somewhat Prepared</label>
+                        <label><input type="radio" name="departure_procedures" value="4"> 4 - Poorly Prepared</label>
+                        <label><input type="radio" name="departure_procedures" value="5"> 5 - Unprepared</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Emergency contacts & escalation:</strong><br>
+                        <label><input type="radio" name="emergency_contacts" value="1"> 1 - Fully Prepared</label>
+                        <label><input type="radio" name="emergency_contacts" value="2"> 2 - Well Prepared</label>
+                        <label><input type="radio" name="emergency_contacts" value="3"> 3 - Somewhat Prepared</label>
+                        <label><input type="radio" name="emergency_contacts" value="4"> 4 - Poorly Prepared</label>
+                        <label><input type="radio" name="emergency_contacts" value="5"> 5 - Unprepared</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Backup procedures for critical functions:</strong><br>
+                        <label><input type="radio" name="backup_procedures" value="1"> 1 - Fully Prepared</label>
+                        <label><input type="radio" name="backup_procedures" value="2"> 2 - Well Prepared</label>
+                        <label><input type="radio" name="backup_procedures" value="3"> 3 - Somewhat Prepared</label>
+                        <label><input type="radio" name="backup_procedures" value="4"> 4 - Poorly Prepared</label>
+                        <label><input type="radio" name="backup_procedures" value="5"> 5 - Unprepared</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Crisis communication protocols:</strong><br>
+                        <label><input type="radio" name="crisis_protocols" value="1"> 1 - Fully Prepared</label>
+                        <label><input type="radio" name="crisis_protocols" value="2"> 2 - Well Prepared</label>
+                        <label><input type="radio" name="crisis_protocols" value="3"> 3 - Somewhat Prepared</label>
+                        <label><input type="radio" name="crisis_protocols" value="4"> 4 - Poorly Prepared</label>
+                        <label><input type="radio" name="crisis_protocols" value="5"> 5 - Unprepared</label>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Knowledge loss recovery procedures:</strong><br>
+                        <label><input type="radio" name="recovery_procedures" value="1"> 1 - Fully Prepared</label>
+                        <label><input type="radio" name="recovery_procedures" value="2"> 2 - Well Prepared</label>
+                        <label><input type="radio" name="recovery_procedures" value="3"> 3 - Somewhat Prepared</label>
+                        <label><input type="radio" name="recovery_procedures" value="4"> 4 - Poorly Prepared</label>
+                        <label><input type="radio" name="recovery_procedures" value="5"> 5 - Unprepared</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div class="results" id="results">
+            <h2>Your Knowledge Risk Assessment Results</h2>
+            <div id="detailedResults"></div>
+            <div id="recommendations"></div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button onclick="generateResults()">Generate Full Results</button>
+            <button onclick="downloadResults()">Download Report</button>
+            <button onclick="resetAssessment()">Reset Assessment</button>
+        </div>
+    </div>
+
+    <script>
+        let scores = { section1: 0, section2: 0, section3: 0, section4: 0, section5: 0 };
+
+        function calculateScores() {
+            // Section 1: Leadership Risk (35 max)
+            scores.section1 = 0;
+            ['ceo_risk', 'sales_risk', 'cto_risk', 'ops_risk'].forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) scores.section1 += parseInt(selected.value);
+            });
+            document.querySelectorAll('input[name="concentration"]:checked').forEach(cb => {
+                scores.section1 += parseInt(cb.value);
+            });
+
+            // Section 2: Process Documentation (45 max)
+            scores.section2 = 0;
+            ['sales_docs', 'onboarding_docs', 'financial_docs', 'delivery_docs', 'doc_current', 'doc_independent', 'doc_criteria', 'doc_lessons', 'doc_controls'].forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) scores.section2 += parseInt(selected.value);
+            });
+
+            // Section 3: Systems & Technology (40 max)
+            scores.section3 = 0;
+            ['sys_admin', 'data_reporting', 'integration', 'arch_docs', 'access_docs', 'backup_docs', 'config_docs', 'api_docs'].forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) scores.section3 += parseInt(selected.value);
+            });
+
+            // Section 4: Customer & Market (35 max)
+            scores.section4 = 0;
+            ['customer_docs', 'market_intel', 'competitive_docs', 'pricing_docs', 'product_docs', 'partnership_docs', 'decision_docs'].forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) scores.section4 += parseInt(selected.value);
+            });
+
+            // Section 5: Risk Management (35 max)
+            scores.section5 = 0;
+            ['transfer_planning', 'succession_planning', 'departure_procedures', 'emergency_contacts', 'backup_procedures', 'crisis_protocols', 'recovery_procedures'].forEach(name => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (selected) scores.section5 += parseInt(selected.value);
+            });
+
+            return scores.section1 + scores.section2 + scores.section3 + scores.section4 + scores.section5;
+        }
+
+        function updateDisplay() {
+            const total = calculateScores();
+            document.getElementById('totalScore').textContent = `${total}/190`;
+            
+            const breakdown = `
+                <div class="section-score">Leadership: ${scores.section1}/35</div>
+                <div class="section-score">Process: ${scores.section2}/45</div>
+                <div class="section-score">Systems: ${scores.section3}/40</div>
+                <div class="section-score">Customer: ${scores.section4}/35</div>
+                <div class="section-score">Risk Mgmt: ${scores.section5}/35</div>
+            `;
+            document.getElementById('sectionBreakdown').innerHTML = breakdown;
+
+            let riskLevel, riskClass;
+            if (total <= 76) { riskLevel = 'LOW RISK ✅'; riskClass = 'risk-low'; }
+            else if (total <= 114) { riskLevel = 'MODERATE RISK ⚠️'; riskClass = 'risk-moderate'; }
+            else if (total <= 152) { riskLevel = 'HIGH RISK ⚠️'; riskClass = 'risk-high'; }
+            else { riskLevel = 'CRITICAL RISK 🚨'; riskClass = 'risk-critical'; }
+
+            const riskElement = document.getElementById('riskLevel');
+            riskElement.textContent = riskLevel;
+            riskElement.className = riskClass;
+
+            // Show results if significantly complete
+            const answered = document.querySelectorAll('input:checked').length;
+            if (answered >= 30) {
+                document.getElementById('results').classList.add('show');
+                generateQuickResults();
+            }
+        }
+
+        function generateQuickResults() {
+            const total = calculateScores();
+            let analysis = `<h3>Risk Analysis</h3>`;
+            
+            if (total <= 76) {
+                analysis += `<p><strong>LOW RISK:</strong> Your organization has good knowledge management practices. Continue maintaining and periodically reviewing your documentation.</p>`;
+            } else if (total <= 114) {
+                analysis += `<p><strong>MODERATE RISK:</strong> Some knowledge vulnerabilities exist. Focus on the highest-scoring sections first.</p>`;
+            } else if (total <= 152) {
+                analysis += `<p><strong>HIGH RISK:</strong> Significant knowledge dependencies threaten business continuity. Immediate documentation projects required.</p>`;
+            } else {
+                analysis += `<p><strong>CRITICAL RISK:</strong> Dangerous knowledge vulnerabilities could severely impact your business. Emergency knowledge capture needed immediately.</p>`;
+            }
+
+            document.getElementById('detailedResults').innerHTML = analysis;
+        }
+
+        function generateResults() {
+            const total = calculateScores();
+            let results = `<h3>Detailed Assessment Results</h3>`;
+            results += `<p><strong>Total Score:</strong> ${total}/190</p>`;
+            
+            // Section breakdown
+            results += `<h4>Section Scores:</h4>`;
+            results += `<ul>`;
+            results += `<li>Leadership & Key Personnel: ${scores.section1}/35 ${scores.section1 > 20 ? '🚨 HIGH RISK' : '✅'}</li>`;
+            results += `<li>Process Documentation: ${scores.section2}/45 ${scores.section2 > 25 ? '🚨 HIGH RISK' : '✅'}</li>`;
+            results += `<li>Systems & Technology: ${scores.section3}/40 ${scores.section3 > 22 ? '🚨 HIGH RISK' : '✅'}</li>`;
+            results += `<li>Customer & Market Knowledge: ${scores.section4}/35 ${scores.section4 > 20 ? '🚨 HIGH RISK' : '✅'}</li>`;
+            results += `<li>Risk Management & Continuity: ${scores.section5}/35 ${scores.section5 > 20 ? '🚨 HIGH RISK' : '✅'}</li>`;
+            results += `</ul>`;
+
+            // Priority recommendations
+            results += `<h4>Priority Recommendations:</h4>`;
+            let recs = [];
+            if (scores.section1 > 20) recs.push("🔥 URGENT: Document leadership knowledge and decision frameworks (4-6 weeks)");
+            if (scores.section2 > 25) recs.push("📋 HIGH: Create formal process documentation for core business functions (8-12 weeks)");
+            if (scores.section3 > 22) recs.push("💻 HIGH: Document technical systems and procedures (6-8 weeks)");
+            if (scores.section4 > 20) recs.push("🤝 MEDIUM: Capture customer relationships and market intelligence (4-6 weeks)");
+            if (scores.section5 > 20) recs.push("⚡ HIGH: Develop business continuity and succession plans (2-4 weeks)");
+
+            if (recs.length === 0) {
+                results += `<p>✅ <strong>Good job!</strong> No immediate high-risk areas identified. Continue maintaining your current practices.</p>`;
+            } else {
+                results += `<ul>`;
+                recs.forEach(rec => results += `<li>${rec}</li>`);
+                results += `</ul>`;
+            }
+
+            // Investment guidance
+            results += `<h4>Investment Guidance:</h4>`;
+            if (total <= 76) {
+                results += `<p>💰 <strong>Maintenance Mode:</strong> Annual reviews and continuous improvement ($5K-15K/year)</p>`;
+            } else if (total <= 114) {
+                results += `<p>💰 <strong>Targeted Improvement:</strong> 6-12 month documentation projects ($25K-75K)</p>`;
+            } else if (total <= 152) {
+                results += `<p>💰 <strong>Comprehensive Program:</strong> 3-6 month intensive documentation ($75K-150K)</p>`;
+            } else {
+                results += `<p>💰 <strong>Emergency Response:</strong> Immediate intervention required ($150K+ justified)</p>`;
+            }
+
+            document.getElementById('detailedResults').innerHTML = results;
+            document.getElementById('results').classList.add('show');
+        }
+
+        function downloadResults() {
+            const total = calculateScores();
+            let report = `KNOWLEDGE RISK ASSESSMENT RESULTS\n`;
+            report += `==========================================\n\n`;
+            report += `Assessment Date: ${new Date().toLocaleDateString()}\n`;
+            report += `Total Risk Score: ${total}/190\n\n`;
+            
+            if (total <= 76) report += `Risk Level: LOW RISK\n`;
+            else if (total <= 114) report += `Risk Level: MODERATE RISK\n`;
+            else if (total <= 152) report += `Risk Level: HIGH RISK\n`;
+            else report += `Risk Level: CRITICAL RISK\n`;
+            
+            report += `\nSECTION BREAKDOWN:\n`;
+            report += `Leadership & Key Personnel: ${scores.section1}/35\n`;
+            report += `Process Documentation: ${scores.section2}/45\n`;
+            report += `Systems & Technology: ${scores.section3}/40\n`;
+            report += `Customer & Market Knowledge: ${scores.section4}/35\n`;
+            report += `Risk Management & Continuity: ${scores.section5}/35\n\n`;
+            
+            report += `PRIORITY ACTIONS:\n`;
+            if (scores.section1 > 20) report += `• URGENT: Leadership knowledge documentation\n`;
+            if (scores.section2 > 25) report += `• HIGH: Core process documentation\n`;
+            if (scores.section3 > 22) report += `• HIGH: Technical system documentation\n`;
+            if (scores.section4 > 20) report += `• MEDIUM: Customer/market intelligence capture\n`;
+            if (scores.section5 > 20) report += `• HIGH: Business continuity planning\n`;
+            
+            report += `\nINVESTMENT RECOMMENDATION:\n`;
+            if (total <= 76) report += `Maintenance mode: $5K-15K annually\n`;
+            else if (total <= 114) report += `Targeted improvement: $25K-75K over 6-12 months\n`;
+            else if (total <= 152) report += `Comprehensive program: $75K-150K over 3-6 months\n`;
+            else report += `Emergency intervention: $150K+ immediately justified\n`;
+
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Knowledge-Risk-Assessment-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function resetAssessment() {
+            if (confirm('Reset all answers and start over?')) {
+                document.getElementById('assessmentForm').reset();
+                document.getElementById('results').classList.remove('show');
+                updateDisplay();
+            }
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+                input.addEventListener('change', updateDisplay);
+            });
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
